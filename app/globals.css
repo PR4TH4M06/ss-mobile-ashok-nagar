@@ -33,16 +33,16 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 28px 18px 40px;
+  padding: 18px 18px 40px;
   min-height: 100dvh;
   background: var(--yellow);
 }
 
 .logo {
-  width: min(88vw, 300px);
+  width: clamp(115px, 32vw, 145px);
   height: auto;
   display: block;
-  margin: 0 auto;
+  margin: 0 auto 2px;
   animation: up 0.7s both;
   -webkit-mask-image:
     linear-gradient(to right, transparent, #000 8%, #000 92%, transparent),
