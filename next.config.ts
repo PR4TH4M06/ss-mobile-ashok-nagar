@@ -7,6 +7,10 @@ const basePath = isGithubPages && repoName ? `/${repoName}` : "";
 const nextConfig: NextConfig = {
   output: "export",
   trailingSlash: true,
+  devIndicators: false,
+  poweredByHeader: false,
+  productionBrowserSourceMaps: false,
+  reactStrictMode: true,
   basePath,
   assetPrefix: basePath || undefined,
   images: {

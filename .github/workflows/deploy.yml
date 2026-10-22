@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -30,8 +32,8 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install dependencies cleanly
+        run: npm ci --ignore-scripts
 
       - name: Build static site
         env:

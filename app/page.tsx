@@ -37,6 +37,16 @@ const copy = {
     disc: "Post karne se pehle ise apne experience ke hisaab se badlein.",
     load: "AI naya review likh raha hai...",
   },
+  mr: {
+    lbl: "तुमचा रिव्ह्यू",
+    sub: "तुमचा अनुभव शेअर करा",
+    copy: "कॉपी करा आणि Google वर पेस्ट करा",
+    done: "कॉपी झाले! Google उघडत आहे… ✓",
+    hint: "रिव्ह्यू कॉपी करण्यासाठी टॅप करा, नंतर Google वर पेस्ट करा.",
+    hint2: "Google च्या रिव्ह्यू बॉक्समध्ये पेस्ट करा. 📝",
+    disc: "पोस्ट करण्यापूर्वी तुमच्या अनुभवानुसार यात बदल करू शकता.",
+    load: "AI नवीन रिव्ह्यू लिहित आहे...",
+  },
 };
 
 type ReviewPayload = { review: string; id: string; source: "ai" };
@@ -61,7 +71,7 @@ function writeList(key: string, items: string[], limit: number) {
 
 export default function Page() {
   const [cat, setCat] = useState("all");
-  const [lang, setLang] = useState<"en" | "hi">("en");
+  const [lang, setLang] = useState<"en" | "hi" | "mr">("en");
   const [review, setReview] = useState("");
   const [shown, setShown] = useState("");
   const [hint, setHint] = useState(copy.en.hint);
@@ -97,7 +107,7 @@ export default function Page() {
     const usedTexts = readList(USED_TEXTS_KEY);
     const result = synthesizeSmartReview(
       normalizeCat(cat),
-      normalizeLang(lang === "hi" ? "hinglish" : "en"),
+      normalizeLang(lang === "hi" ? "hinglish" : lang === "mr" ? "mr" : "en"),
       usedIds,
       usedTexts
     );
@@ -142,7 +152,10 @@ export default function Page() {
     const ok = () => {
       setCopied(true);
       setHint(t.hint2);
-      setTimeout(() => window.open(googleReviewUrl(), "_blank"), 900);
+      setTimeout(() => {
+        const win = window.open(googleReviewUrl(), "_blank", "noopener,noreferrer");
+        if (win) win.opener = null;
+      }, 900);
     };
     const fallback = () => {
       const ta = document.createElement("textarea");
@@ -162,21 +175,45 @@ export default function Page() {
 
   const phoneReady = !shop.phoneTel.includes("X");
   const wa = whatsappUrl();
+  const marqueeBrands = [...shop.brands, ...shop.brands];
 
   return (
     <>
       <div className="bar" />
+
+      {/* Animated Ambient Background Orbs */}
+      <div className="bg-decor" aria-hidden="true">
+        <span className="orb orb-1" />
+        <span className="orb orb-2" />
+        <span className="orb orb-3" />
+      </div>
+
       <div className="page">
-        <Logo />
+        <div className="logo-wrap">
+          <Logo />
+        </div>
+
         <h1 className="sr">{shop.name}</h1>
         <div className="brand">{shop.tagline}</div>
-        <div className="stars">★★★★★</div>
+
+        <div className="stars" aria-label="5 out of 5 stars">
+          <span>★</span>
+          <span>★</span>
+          <span>★</span>
+          <span>★</span>
+          <span>★</span>
+        </div>
         <div className="sub">{t.sub}</div>
 
         <div className="cats">
           <div className="row">
-            {categories.map((c) => (
-              <button key={c.id} className={`chip${cat === c.id ? " on" : ""}`} onClick={() => setCat(c.id)}>
+            {categories.map((c, idx) => (
+              <button
+                key={c.id}
+                style={{ animationDelay: `${idx * 0.05}s` }}
+                className={`chip${cat === c.id ? " on" : ""}`}
+                onClick={() => setCat(c.id)}
+              >
                 {c.label}
               </button>
             ))}
@@ -190,12 +227,15 @@ export default function Page() {
           <button className={lang === "hi" ? "on" : ""} onClick={() => setLang("hi")}>
             Hinglish
           </button>
+          <button className={lang === "mr" ? "on" : ""} onClick={() => setLang("mr")}>
+            मराठी (Marathi)
+          </button>
         </div>
 
         <div className="card">
           <div className="lbl">
             {t.lbl}
-            {aiReady ? <span className="ai-pill">AI</span> : null}
+            {aiReady ? <span className="ai-pill">✨ AI SMART</span> : null}
           </div>
           <div id="rv" className={typing ? "typing" : ""}>
             {shown}
@@ -203,7 +243,7 @@ export default function Page() {
           <div className="div" />
           <div className="btns">
             <button className={`cta${copied ? " ok" : ""}`} onClick={onCopy}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="9" y="9" width="13" height="13" rx="2" />
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
               </svg>
@@ -228,8 +268,20 @@ export default function Page() {
           <div className="disc">{t.disc}</div>
         </div>
 
+        {/* Animated Brands Ticker */}
+        <div className="marquee-wrap" aria-label="Available brands">
+          <div className="marquee-track">
+            {marqueeBrands.map((b, i) => (
+              <span key={`${b}-${i}`} className="marquee-item">
+                <b>●</b> {b}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Social & Action Buttons */}
         <div className="icons">
-          <a className="ib" href={shop.instagram} target="_blank" rel="noopener">
+          <a className="ib" href={shop.instagram} target="_blank" rel="noopener noreferrer">
             <i>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="2" width="20" height="20" rx="5" />
@@ -239,7 +291,19 @@ export default function Page() {
             </i>
             Instagram
           </a>
-          <a className="ib" href={shop.facebook} target="_blank" rel="noopener">
+          <a className="ib" href={shop.ownerInstagram} target="_blank" rel="noopener noreferrer">
+            <i>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+            </i>
+            Owner
+            <br />
+            Instagram
+          </a>
+          <a className="ib" href={shop.facebook} target="_blank" rel="noopener noreferrer">
             <i>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.51 1.49-3.9 3.77-3.9 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.45 2.91h-2.33V22c4.78-.79 8.44-4.94 8.44-9.94z" />
@@ -247,7 +311,7 @@ export default function Page() {
             </i>
             Facebook
           </a>
-          <a className="ib" href={wa} target={wa === "#" ? undefined : "_blank"} rel="noopener">
+          <a className="ib" href={wa} target={wa === "#" ? undefined : "_blank"} rel="noopener noreferrer">
             <i>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
@@ -264,7 +328,7 @@ export default function Page() {
             </i>
             Call Us
           </a>
-          <a className="ib" href={mapsDirectionsUrl()} target="_blank" rel="noopener">
+          <a className="ib" href={mapsDirectionsUrl()} target="_blank" rel="noopener noreferrer">
             <i>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z" />
@@ -290,23 +354,135 @@ export default function Page() {
           </button>
         </div>
 
-        <div className="addr">
-          {shop.address}
-          <br />☎ {shop.phoneDisplay}
-        </div>
-        <div className="map">
-          <iframe src={mapsEmbedUrl()} title="SS Mobile location" loading="lazy" referrerPolicy="strict-origin-when-cross-origin" />
+        {/* Store Highlights Grid (Responsive for Mobile & Desktop) */}
+        <div className="stats-grid">
+          <div className="stat-box">
+            <span className="stat-num">4.9 ★</span>
+            <span className="stat-lbl">Customer Rating</span>
+          </div>
+          <div className="stat-box">
+            <span className="stat-num">0% EMI</span>
+            <span className="stat-lbl">Easy Finance</span>
+          </div>
+          <div className="stat-box">
+            <span className="stat-num">100%</span>
+            <span className="stat-lbl">Original Brands</span>
+          </div>
         </div>
 
-        <div className="info">
-          <h3>What we offer</h3>
-          <ul>
-            {shop.offers.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
+        {/* Store Location Section & What We Offer (Side-by-side on desktop, stacked on mobile) */}
+        <div className="bottom-grid">
+          <div className="map-card">
+            <div className="loc-header">
+              <div className="loc-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+              </div>
+              <div className="loc-meta">
+                <h3>Visit Our Showroom</h3>
+                <p>{shop.address}</p>
+              </div>
+            </div>
+
+            <div className="loc-pills">
+              <a href={`tel:${shop.phoneTel}`} className="loc-pill">
+                <span>📞</span> {shop.phoneDisplay}
+              </a>
+              <span className="loc-pill">
+                <span>🕒</span> {shop.hours}
+              </span>
+            </div>
+
+            <div className="map">
+              <iframe
+                src={mapsEmbedUrl()}
+                title="SS Mobile Satellite Location"
+                loading="lazy"
+                allowFullScreen
+                sandbox="allow-scripts allow-same-origin allow-popups"
+                referrerPolicy="strict-origin-when-cross-origin"
+              />
+            </div>
+
+            <div className="loc-actions">
+              <a className="loc-btn primary" href={mapsDirectionsUrl()} target="_blank" rel="noopener noreferrer">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="3 11 22 2 13 21 11 13 3 11" />
+                </svg>
+                Get Directions on Google Maps
+              </a>
+            </div>
+          </div>
+
+          <div className="info">
+            <div className="info-badge">ALL BRANDS UNDER ONE ROOF</div>
+            <h3>What we offer</h3>
+            <ul>
+              {shop.offers.map((item) => (
+                <li key={item}>
+                  <span className="chk">✓</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
+
+      {/* Amazing Animated Dark-Luxury Footer */}
+      <footer className="site-footer">
+        <div className="footer-glow" />
+        <div className="footer-inner">
+          <div className="footer-top">
+            <div className="footer-brand">
+              <div className="footer-logo-row">
+                <Logo />
+                <div>
+                  <h4>SS MOBILE</h4>
+                  <p>ASHOK NAGAR · NASHIK</p>
+                </div>
+              </div>
+              <p className="footer-desc">
+                Your trusted destination for All-Brand 5G Smartphones, Smart LED TVs, Bluetooth Speakers, 5.1 Home Theaters, Genuine Accessories &amp; Expert Mobile Repair.
+              </p>
+              <div className="footer-owner-pill">
+                <span>👤 Owner:</span> <strong>Avinash Dugdhe</strong>
+              </div>
+            </div>
+
+            <div className="footer-col">
+              <h5>Products &amp; Services</h5>
+              <ul>
+                <li>📱 All-Brand 5G Smartphones</li>
+                <li>📺 4K Smart LED &amp; Google TVs</li>
+                <li>🔊 Speakers, Soundbars &amp; Home Theaters</li>
+                <li>🎧 Covers, UV Glass, Chargers &amp; Earbuds</li>
+                <li>🛠️ Fast Mobile Display &amp; Battery Repair</li>
+                <li>🔄 Instant Old Phone Exchange &amp; 0% EMI</li>
+              </ul>
+            </div>
+
+            <div className="footer-col">
+              <h5>Visit &amp; Connect</h5>
+              <div className="footer-contact-list">
+                <a href={`tel:${shop.phoneTel}`}>📞 {shop.phoneDisplay}</a>
+                <a href={wa} target="_blank" rel="noopener noreferrer">💬 Chat on WhatsApp</a>
+                <a href={shop.instagram} target="_blank" rel="noopener noreferrer">📸 @ss_mobile_ashoknagar</a>
+                <a href={shop.ownerInstagram} target="_blank" rel="noopener noreferrer">👑 @avinash_dugdhe (Owner)</a>
+                <a href={mapsDirectionsUrl()} target="_blank" rel="noopener noreferrer">📍 {shop.address}</a>
+              </div>
+              <div className="footer-hours">🕒 {shop.hours}</div>
+            </div>
+          </div>
+
+          <div className="footer-bottom">
+            <span>© {new Date().getFullYear()} SS Mobile Ashok Nagar, Nashik. All Rights Reserved.</span>
+            <span>Crafted with ❤️ for Happy Customers</span>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }
