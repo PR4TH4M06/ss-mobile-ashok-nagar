@@ -131,7 +131,7 @@ export default function Page() {
     const url = URL.createObjectURL(new Blob([vcard()], { type: "text/vcard" }));
     const a = document.createElement("a");
     a.href = url;
-    a.download = "Avinash_Dogdhe_SS_Mobile.vcf";
+    a.download = "AVINASH_DUGDHE_SS_MOBILE.vcf";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

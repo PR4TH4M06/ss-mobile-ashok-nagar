@@ -5,7 +5,7 @@
 export const shop = {
   name: "SS Mobile",
   area: "Ashok Nagar",
-  contactName: "Avinash Dogdhe",
+  contactName: "AVINASH DUGDHE SS MOBILE",
   tagline: "Mobiles · Accessories · Service · Exchange",
   phoneDisplay: "+91 97623 25555",
   phoneTel: "+919762325555",
@@ -68,8 +68,8 @@ export function vcard() {
   return [
     "BEGIN:VCARD",
     "VERSION:3.0",
-    `N:Dogdhe;Avinash;;;`,
-    `FN:${shop.contactName} (${shop.name})`,
+    `N:DUGDHE SS MOBILE;AVINASH;;;`,
+    `FN:AVINASH DUGDHE SS MOBILE`,
     `ORG:${shop.name} ${shop.area}`,
     shop.phoneTel.includes("X") ? "" : `TEL;TYPE=CELL,VOICE,PREF:${shop.phoneTel}`,
     `ADR;TYPE=WORK:;;${shop.address};;;;India`,
