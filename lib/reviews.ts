@@ -178,7 +178,7 @@ const EN_OPENERS: Record<CategoryCore | "general", readonly string[]> = {
     "Customer service at SS Mobile Ashok Nagar is truly top notch",
     "The counter staff at SS Mobile are patient, knowledgeable and genuinely helpful",
     "Clean showroom, well-organised display, and very friendly team at SS Mobile",
-    "Avinash sir and the SS Mobile team make sure every customer walks out happy",
+    "Avinash Dugdhe sir and Anil Kajalkar sir and the SS Mobile team make sure every customer walks out happy",
     "Loved how patiently the staff demonstrated phones, TVs and speakers without rushing us",
     "Zero attitude, honest suggestions and fast billing at SS Mobile Ashok Nagar",
     "The way they explain technical features in simple language at SS Mobile is commendable",
@@ -280,7 +280,7 @@ const EN_EXPERIENCES: Record<CategoryCore, readonly string[]> = {
     "no pushy cross-selling at the billing counter, which made the visit very comfortable",
     "they remembered our previous visit and gave us a great repeat-customer discount",
     "even small queries about phone settings and Smart TV Wi-Fi setup were handled with a smile",
-    "the owner Avinash sir personally ensures that every customer gets genuine products and proper guidance",
+    "the owner Avinash Dugdhe sir and Anil Kajalkar sir personally ensures that every customer gets genuine products and proper guidance",
     "they communicate comfortably in Marathi, Hindi and English so everyone feels at home",
     "their honesty about which model has better battery life or sound quality really builds trust",
     "even after billing was done, they spent 15 minutes helping me set up all my apps",
@@ -426,14 +426,14 @@ const HI_OPENERS: Record<CategoryCore | "general", readonly string[]> = {
     "15 minute mein finance EMI aur old phone exchange dono ka kaam SS Mobile par ho gaya",
   ],
   staff: [
-    "SS Mobile Ashok Nagar ke staff aur Avinash bhai ka behaviour bahut hi polite aur helpful hai",
+    "SS Mobile Ashok Nagar ke staff aur Avinash Dugdhe bhai aur Anil Kajalkar bhai ka behaviour bahut hi polite aur helpful hai",
     "Yahan ke staff customer ki baat dhyan se sunte hain aur budget ke hisaab se sahi salah dete hain",
     "SS Mobile par billing fast hai aur staff bilkul jaldbazi ya pressure nahi banata",
     "Showroom saaf-suthra hai aur SS Mobile ki team bahut tameez se pesh aati hai",
     "Customer handling aur service ke maamle mein SS Mobile Ashok Nagar 10 on 10 hai",
     "Counter par baithe bhaiya ne bahut aaram se saare doubts clear kiye aur demo dikhaya",
     "Chhota tempered glass lo ya bada Smart TV, yahan har customer ko poori izzat milti hai",
-    "Avinash sir khud dhyan dete hain ki har customer ko sahi product aur best rate mile",
+    "Avinash Dugdhe sir and Anil Kajalkar sir khud dhyan dete hain ki har customer ko sahi product aur best rate mile",
     "Naya phone ya TV lene ke baad bhi SS Mobile ka staff har chhoti setting mein madad karta hai",
     "Itna friendly aur supportive staff Ashok Nagar ki kisi aur dukaan mein nahi dekha",
   ],
@@ -509,7 +509,7 @@ const HI_EXPERIENCES: Record<CategoryCore, readonly string[]> = {
     "phone setup hote time baithne ko kaha aur paani bhi poocha, yeh vyavhaar bahut achha laga",
     "Marathi, Hindi aur English teeno mein aaram se samjha dete hain",
     "shaam ke rush mein bhi bina jaldbazi ke tasalli se poora demo dikhaya",
-    "Avinash bhai aur unki team customer ki zaroorat samajh kar hi sahi model suggest karte hain",
+    "Avinash Dugdhe bhai aur Anil Kajalkar bhai aur unki team customer ki zaroorat samajh kar hi sahi model suggest karte hain",
     "bill banne ke baad bhi poora data transfer aur app setup khud karke diya",
   ],
 };
@@ -535,7 +535,7 @@ const HI_CLOSERS: readonly string[] = [
   "Paisa vasool experience raha, poori tarah satisfied hoon.",
   "Online ke chakkar mein padne se achha seedha SS Mobile par aao.",
   "Service aur bharose ke maamle mein SS Mobile Ashok Nagar best hai.",
-  "Thank you Avinash bhai aur SS Mobile team itni achhi service ke liye!",
+  "Thank you Avinash Dugdhe bhai aur Anil Kajalkar bhai aur SS Mobile team itni achhi service ke liye!",
   "Nashik Ashok Nagar mein electronics aur mobile ke liye isse badiya jagah nahi milegi.",
   "Full 5-star rating meri taraf se, zaroor visit karein!",
   "Saman bhi original mila aur vyavhaar bhi lajawab — bahut khush hoon.",
@@ -636,13 +636,13 @@ const MR_OPENERS: Record<CategoryCore | "general", readonly string[]> = {
     "कोणतीही कपात न करता जुन्या फोनची ठरलेली पूर्ण किंमत नवीन बिलातून वजा करून दिली",
   ],
   staff: [
-    "SS Mobile अशोक नगर मधील स्टाफ आणि अविनाश दादांचे बोलणे अतिशय नम्र आणि मदतशीर आहे",
+    "SS Mobile अशोक नगर मधील स्टाफ आणि अविनाश दुग्धे व अनिल काजळकर सर आणि अनिल दादांचे बोलणे अतिशय नम्र आणि मदतशीर आहे",
     "येथील स्टाफ ग्राहकांची गरज समजून घेऊन बजेटनुसार योग्य सल्ला देतो",
     "SS Mobile मध्ये बिलिंग खूप फास्ट होते आणि स्टाफ कोणतीही घाई करत नाही",
     "दुकान एकदम स्वच्छ आहे आणि SS Mobile ची संपूर्ण टीम खूप आदराने वागते",
     "ग्राहक सेवेच्या बाबतीत SS Mobile अशोक नगर ला १० पैकी १० गुण आहेत",
     "काउंटरवरील स्टाफने खूप शांतपणे सर्व माहिती दिली आणि फोनचा डेमो दाखवला",
-    "अविनाश दादा स्वतः प्रत्येक ग्राहकाला योग्य वस्तू आणि चांगला दर मिळतोय का याकडे लक्ष देतात",
+    "अविनाश दुग्धे व अनिल काजळकर सर स्वतः प्रत्येक ग्राहकाला योग्य वस्तू आणि चांगला दर मिळतोय का याकडे लक्ष देतात",
     "नवीन मोबाईल किंवा टीव्ही घेतल्यानंतरही सेटिंग्स समजून सांगण्यासाठी येथील स्टाफ नेहमी तयार असतो",
   ],
 };
@@ -734,7 +734,7 @@ const MR_CLOSERS: readonly string[] = [
   "पूर्णपणे पैसा वसूल अनुभव, सेवेबद्दल १००% समाधानी आहे.",
   "ऑनलाईनच्या नादी लागण्यापेक्षा थेट SS Mobile अशोक नगर मध्ये येऊन खरेदी करा.",
   "विश्वास आणि उत्तम सेवेसाठी SS Mobile अशोक नगर हेच सर्वोत्तम ठिकाण आहे.",
-  "उत्तम सेवेबद्दल अविनाश दादा आणि SS Mobile टीमचे खूप खूप आभार!",
+  "उत्तम सेवेबद्दल अविनाश दुग्धे व अनिल काजळकर सर आणि SS Mobile टीमचे खूप खूप आभार!",
   "अशोक नगर, नाशिक मधील मोबाईल आणि इलेक्ट्रॉनिक्ससाठी सर्वात बेस्ट शोरूम!",
   "माझ्याकडून पूर्ण ५-स्टार रेटिंग, नक्कीच एकदा भेट देऊन पहा.",
 ];
@@ -749,7 +749,7 @@ const STANDALONE_EN: readonly Review[] = [
   { id: "s-en-3", cat: "accessories", lang: "en", text: "Stopped by SS Mobile for a tempered glass, cover and Bluetooth neckband. Zero bubbles on the screen guard, sturdy case quality, and very fair pricing." },
   { id: "s-en-4", cat: "repair", lang: "en", text: "Got my phone's broken display fixed at SS Mobile Ashok Nagar. They quoted the exact price upfront, kept my data safe, and handed the phone back the same evening looking brand new." },
   { id: "s-en-5", cat: "exchange", lang: "en", text: "Upgraded my old handset at SS Mobile through exchange. They checked the phone on the counter, gave a better buyback rate than online apps, and adjusted it straight into the new bill." },
-  { id: "s-en-6", cat: "staff", lang: "en", text: "What stands out at SS Mobile Ashok Nagar is how patiently Avinash sir and the staff talk to customers. From mobiles to Smart TVs and speakers, they guide you honestly." },
+  { id: "s-en-6", cat: "staff", lang: "en", text: "What stands out at SS Mobile Ashok Nagar is how patiently Avinash Dugdhe sir and Anil Kajalkar sir and the staff talk to customers. From mobiles to Smart TVs and speakers, they guide you honestly." },
 ];
 
 const STANDALONE_HI: readonly Review[] = [
@@ -767,7 +767,7 @@ const STANDALONE_MR: readonly Review[] = [
   { id: "s-mr-3", cat: "accessories", lang: "mr", text: "SS Mobile मधून मोबाईलसाठी टेम्पर्ड ग्लास, कव्हर आणि ब्लूटूथ नेकबँड घेतला. ग्लास एकही बबल न ठेवता लावून दिला आणि वस्तूंची क्वालिटी एकदम ओरिजिनल आहे." },
   { id: "s-mr-4", cat: "repair", lang: "mr", text: "माझ्या फोनचा डिस्प्ले आणि चार्जिंग प्रॉब्लेम SS Mobile अशोक नगर मध्ये तासाभरात दुरुस्त करून मिळाला. प्रामाणिक काम आणि योग्य दर, फोनमधील सर्व डेटा सुरक्षित राहिला." },
   { id: "s-mr-5", cat: "exchange", lang: "mr", text: "जुना मोबाईल एक्सचेंज करून SS Mobile मधून नवीन फोन घेतला. ऑनलाईनपेक्षा जास्त एक्सचेंज किंमत मिळाली आणि २० मिनिटांत सर्व प्रोसेस पूर्ण झाली." },
-  { id: "s-mr-6", cat: "staff", lang: "mr", text: "SS Mobile अशोक नगर मधील स्टाफ आणि अविनाश दादा खूप आपुलकीने मार्गदर्शन करतात. मोबाईल, स्मार्ट टीव्ही आणि स्पीकर्सच्या खरेदीसाठी नाशिकमधील सर्वात खात्रीशीर ठिकाण!" },
+  { id: "s-mr-6", cat: "staff", lang: "mr", text: "SS Mobile अशोक नगर मधील स्टाफ आणि अविनाश दुग्धे व अनिल काजळकर सर खूप आपुलकीने मार्गदर्शन करतात. मोबाईल, स्मार्ट टीव्ही आणि स्पीकर्सच्या खरेदीसाठी नाशिकमधील सर्वात खात्रीशीर ठिकाण!" },
 ];
 
 function capFirst(s: string): string {

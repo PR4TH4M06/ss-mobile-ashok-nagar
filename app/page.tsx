@@ -13,8 +13,8 @@ import {
   whatsappUrl,
 } from "@/lib/shop";
 
-const USED_IDS_KEY = "ss-mobile-used-reviews";
-const USED_TEXTS_KEY = "ss-mobile-used-review-texts";
+const USED_IDS_KEY = `ss-mobile-${shop.area.toLowerCase().replace(/\s+/g, "-")}-used-reviews`;
+const USED_TEXTS_KEY = `ss-mobile-${shop.area.toLowerCase().replace(/\s+/g, "-")}-used-review-texts`;
 
 const copy = {
   en: {
@@ -141,36 +141,68 @@ export default function Page() {
     const url = URL.createObjectURL(new Blob([vcard()], { type: "text/vcard" }));
     const a = document.createElement("a");
     a.href = url;
-    a.download = "AVINASH_DUGDHE_SS_MOBILE.vcf";
+    a.download = `${shop.contactName.replace(/[^A-Za-z0-9]+/g, "_")}.vcf`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(url), 1500);
   }
 
+  /**
+   * iOS Safari & Android Chrome compatible Copy + Redirect:
+   * - Synchronous copy via textarea + execCommand('copy') runs inside the exact user tap gesture
+   *   so iOS never blocks clipboard or navigation.
+   * - Also fires navigator.clipboard.writeText for modern browsers.
+   * - Navigates to Google Review URL reliably on both iPhone (iOS Safari) and Android.
+   */
   function onCopy() {
-    const ok = () => {
-      setCopied(true);
-      setHint(t.hint2);
-      setTimeout(() => {
-        const win = window.open(googleReviewUrl(), "_blank", "noopener,noreferrer");
-        if (win) win.opener = null;
-      }, 900);
-    };
-    const fallback = () => {
+    const targetUrl = googleReviewUrl();
+
+    // 1. Synchronous copy inside user tap gesture (works 100% on iOS Safari)
+    let syncCopied = false;
+    try {
       const ta = document.createElement("textarea");
       ta.value = review;
-      ta.style.cssText = "position:fixed;opacity:0";
+      ta.setAttribute("readonly", "");
+      ta.style.cssText = "position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none;";
       document.body.appendChild(ta);
+      ta.focus();
       ta.select();
-      try {
-        document.execCommand("copy");
-      } catch {}
+      ta.setSelectionRange(0, review.length);
+      syncCopied = document.execCommand("copy");
       document.body.removeChild(ta);
-      ok();
-    };
-    if (navigator.clipboard?.writeText) navigator.clipboard.writeText(review).then(ok).catch(fallback);
-    else fallback();
+    } catch {
+      /* fallback to clipboard API below */
+    }
+
+    // 2. Also write via async Clipboard API if available
+    if (!syncCopied && navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(review).catch(() => {});
+    }
+
+    setCopied(true);
+    setHint(t.hint2);
+
+    // 3. Open Google Review page (iOS Safari blocks delayed window.open(_blank),
+    //    so on iOS/mobile we navigate directly after a brief visual confirmation,
+    //    or open a new tab if allowed by the browser within the tap gesture).
+    const isIOS =
+      typeof navigator !== "undefined" &&
+      (/iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1));
+
+    if (isIOS) {
+      setTimeout(() => {
+        window.location.assign(targetUrl);
+      }, 350);
+    } else {
+      setTimeout(() => {
+        const win = window.open(targetUrl, "_blank", "noopener,noreferrer");
+        if (!win) {
+          window.location.assign(targetUrl);
+        }
+      }, 650);
+    }
   }
 
   const phoneReady = !shop.phoneTel.includes("X");
@@ -289,20 +321,34 @@ export default function Page() {
                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
               </svg>
             </i>
-            Instagram
-          </a>
-          <a className="ib" href={shop.ownerInstagram} target="_blank" rel="noopener noreferrer">
-            <i>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" />
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-              </svg>
-            </i>
-            Owner
+            Store
             <br />
             Instagram
           </a>
+          {shop.ownerInstagram ? (
+            <a className="ib" href={shop.ownerInstagram} target="_blank" rel="noopener noreferrer">
+              <i>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </i>
+              {shop.ownerInstagramLabel || "Owner IG"}
+            </a>
+          ) : null}
+          {shop.secondOwnerInstagram ? (
+            <a className="ib" href={shop.secondOwnerInstagram} target="_blank" rel="noopener noreferrer">
+              <i>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </i>
+              {shop.secondOwnerInstagramLabel || "Co-Owner IG"}
+            </a>
+          ) : null}
           <a className="ib" href={shop.facebook} target="_blank" rel="noopener noreferrer">
             <i>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -398,7 +444,7 @@ export default function Page() {
             <div className="map">
               <iframe
                 src={mapsEmbedUrl()}
-                title="SS Mobile Satellite Location"
+                title={`SS Mobile ${shop.area} Satellite Location`}
                 loading="lazy"
                 allowFullScreen
                 sandbox="allow-scripts allow-same-origin allow-popups"
@@ -441,14 +487,14 @@ export default function Page() {
                 <Logo />
                 <div>
                   <h4>SS MOBILE</h4>
-                  <p>ASHOK NAGAR · NASHIK</p>
+                  <p>{shop.area.toUpperCase()} · NASHIK</p>
                 </div>
               </div>
               <p className="footer-desc">
                 Your trusted destination for All-Brand 5G Smartphones, Smart LED TVs, Bluetooth Speakers, 5.1 Home Theaters, Genuine Accessories &amp; Expert Mobile Repair.
               </p>
               <div className="footer-owner-pill">
-                <span>👤 Owner:</span> <strong>Avinash Dugdhe</strong>
+                <span>👤 Owners:</span> <strong>{shop.ownerTitle}</strong>
               </div>
             </div>
 
@@ -467,10 +513,15 @@ export default function Page() {
             <div className="footer-col">
               <h5>Visit &amp; Connect</h5>
               <div className="footer-contact-list">
-                <a href={`tel:${shop.phoneTel}`}>📞 {shop.phoneDisplay}</a>
-                <a href={wa} target="_blank" rel="noopener noreferrer">💬 Chat on WhatsApp</a>
-                <a href={shop.instagram} target="_blank" rel="noopener noreferrer">📸 @ss_mobile_ashoknagar</a>
-                <a href={shop.ownerInstagram} target="_blank" rel="noopener noreferrer">👑 @avinash_dugdhe (Owner)</a>
+                <a href={`tel:${shop.phoneTel}`}>📞 Call: {shop.phoneDisplay}</a>
+                <a href={wa} target="_blank" rel="noopener noreferrer">💬 WhatsApp: {shop.whatsappDisplay || shop.phoneDisplay}</a>
+                <a href={shop.instagram} target="_blank" rel="noopener noreferrer">📸 Store Instagram</a>
+                {shop.ownerInstagram ? (
+                  <a href={shop.ownerInstagram} target="_blank" rel="noopener noreferrer">👑 {shop.ownerInstagramLabel}</a>
+                ) : null}
+                {shop.secondOwnerInstagram ? (
+                  <a href={shop.secondOwnerInstagram} target="_blank" rel="noopener noreferrer">👑 {shop.secondOwnerInstagramLabel}</a>
+                ) : null}
                 <a href={mapsDirectionsUrl()} target="_blank" rel="noopener noreferrer">📍 {shop.address}</a>
               </div>
               <div className="footer-hours">🕒 {shop.hours}</div>
@@ -478,7 +529,7 @@ export default function Page() {
           </div>
 
           <div className="footer-bottom">
-            <span>© {new Date().getFullYear()} SS Mobile Ashok Nagar, Nashik. All Rights Reserved.</span>
+            <span>© {new Date().getFullYear()} SS Mobile {shop.area}, Nashik. All Rights Reserved.</span>
             <span>Crafted with ❤️ for Happy Customers</span>
           </div>
         </div>

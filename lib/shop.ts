@@ -1,25 +1,30 @@
 /**
- * SS Mobile shop details.
+ * SS Mobile shop details (Ashok Nagar, Nashik).
  * Baad mein WhatsApp, Instagram, location yahi update kar dena.
  */
 export const shop = {
   name: "SS Mobile",
   area: "Ashok Nagar",
+  ownerTitle: "Avinash Dugdhe & Anil Kajalkar",
   contactName: "AVINASH DUGDHE SS MOBILE",
   tagline: "Mobiles · Smart TVs · Speakers · Home Theater · Service",
-  phoneDisplay: "+91 97623 25555",
-  phoneTel: "+919762325555",
+  phoneDisplay: "+91 91722 25142",
+  phoneTel: "+919172225142",
   whatsapp: "919762325555",
+  whatsappDisplay: "+91 97623 25555",
   instagram: "https://www.instagram.com/ss_mobile_ashoknagar?srtk=MWMzdXQ2ZDZ6MGt4dg==",
   ownerInstagram: "https://www.instagram.com/avinash_dugdhe?xtok=MTVtc2JsMDRmc2R6MQ==",
+  ownerInstagramLabel: "Avinash Dugdhe",
+  secondOwnerInstagram: "https://www.instagram.com/anil_kajalkar?dlrf=ZmY2b3p6dXowcGVw",
+  secondOwnerInstagramLabel: "Anil Kajalkar",
   facebook: "https://www.facebook.com/share/19cDdhuzyF/",
-  address: "SS Mobile, Ashok Nagar, Nashik",
+  address: "Shop 1 & 2, Shyam Villa, Near Ashok Nagar Police Chowki, Nashik 422012",
   city: "Nashik",
-  pincode: "",
+  pincode: "422012",
   mapsQuery: "SS Mobile Ashok Nagar Nashik",
   placeId: "ChIJQ3gek5Xt3TsRzGvb3ycr6-E",
   mapsEmbed: "",
-  hours: "Open Daily · 9:30 AM – 10:00 PM",
+  hours: "Open Daily · 10:00 AM – 10:00 PM",
   brands: ["Samsung", "Apple iPhone", "Vivo", "Oppo", "Xiaomi / Redmi", "Realme", "OnePlus", "Smart TVs", "Home Theater", "JBL / boAt"],
   offers: [
     "Latest 5G smartphones — all major brands (Samsung, Vivo, Oppo, Xiaomi, Realme, iPhone, OnePlus)",
@@ -75,10 +80,12 @@ export function vcard() {
     `N:DUGDHE SS MOBILE;AVINASH;;;`,
     `FN:AVINASH DUGDHE SS MOBILE`,
     `ORG:${shop.name} ${shop.area}`,
-    shop.phoneTel.includes("X") ? "" : `TEL;TYPE=CELL,VOICE,PREF:${shop.phoneTel}`,
+    `TEL;TYPE=CELL,VOICE,PREF:+919762325555`,
+    `TEL;TYPE=WORK,VOICE:${shop.phoneTel}`,
     `ADR;TYPE=WORK:;;${shop.address};;;;India`,
     shop.instagram.endsWith("instagram.com/") ? "" : `URL:${shop.instagram}`,
     shop.ownerInstagram ? `URL:${shop.ownerInstagram}` : "",
+    shop.secondOwnerInstagram ? `URL:${shop.secondOwnerInstagram}` : "",
     shop.facebook.endsWith("facebook.com/") ? "" : `URL:${shop.facebook}`,
     "END:VCARD",
   ]

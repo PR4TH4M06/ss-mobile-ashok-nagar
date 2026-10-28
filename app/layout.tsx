@@ -18,6 +18,12 @@ export const viewport: Viewport = {
   themeColor: "#ffe500",
 };
 
+const isProd = process.env.NODE_ENV === "production";
+
+const cspContent = isProd
+  ? "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; frame-src https://maps.google.com https://www.google.com; connect-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;"
+  : "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: ws: wss: http: https:; frame-src https://maps.google.com https://www.google.com;";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -28,10 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           httpEquiv="Permissions-Policy"
           content="camera=(), microphone=(), geolocation=(), payment=(), usb=()"
         />
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; frame-src https://maps.google.com https://www.google.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;"
-        />
+        <meta httpEquiv="Content-Security-Policy" content={cspContent} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
